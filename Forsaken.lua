@@ -1,0 +1,75 @@
+-- ⚡ Hutao Hub Notification (FREE Version) ⚡
+local CoreGui = game:GetService("CoreGui")
+local HttpService = game:GetService("HttpService")
+
+-- Detect quốc gia player (Roblox cung cấp LocaleId, ví dụ: "vi-vn", "en-us")
+local locale = game:GetService("LocalizationService").RobloxLocaleId:lower()
+local isVietnamese = string.find(locale, "vi") ~= nil
+
+-- GUI
+local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.Name = "HutaoNotice"
+ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+ScreenGui.Parent = CoreGui
+
+local Frame = Instance.new("Frame")
+Frame.BackgroundColor3 = Color3.fromRGB(10, 10, 15)
+Frame.BorderColor3 = Color3.fromRGB(0, 200, 255)
+Frame.BorderSizePixel = 3
+Frame.Position = UDim2.new(0.5, -175, 0.5, -100)
+Frame.Size = UDim2.new(0, 350, 0, 200)
+Frame.Parent = ScreenGui
+Instance.new("UICorner", Frame).CornerRadius = UDim.new(0, 12)
+
+-- Title
+local Title = Instance.new("TextLabel")
+Title.Font = Enum.Font.GothamBlack
+Title.Text = "Hutao Hub [Free]"
+Title.TextColor3 = Color3.fromRGB(0,200,255)
+Title.TextSize = 26
+Title.BackgroundTransparency = 1
+Title.Size = UDim2.new(1,0,0,40)
+Title.Position = UDim2.new(0,0,0.05,0)
+Title.Parent = Frame
+
+-- Nội dung
+local Message = Instance.new("TextLabel")
+Message.Font = Enum.Font.Gotham
+Message.TextWrapped = true
+Message.TextColor3 = Color3.fromRGB(220,220,220)
+Message.TextSize = 16
+Message.BackgroundTransparency = 1
+Message.Size = UDim2.new(0.9,0,0.4,0)
+Message.Position = UDim2.new(0.05,0,0.3,0)
+Message.Parent = Frame
+
+if isVietnamese then
+    Message.Text = "Xin lỗi vì sự bất tiện nhưng script đã có video hướng dẫn sử dụng mới.\nẤn vào nút bên dưới để nhận script đó nha!!"
+else
+    Message.Text = "Sorry for the inconvenience, but the script now has a new tutorial video.\nClick the button below to get it!!"
+end
+
+-- Button Copy Link
+local Button = Instance.new("TextButton")
+Button.Font = Enum.Font.GothamBold
+Button.Text = "📋 Copy YouTube Link"
+Button.TextColor3 = Color3.fromRGB(255,255,255)
+Button.TextSize = 16
+Button.BackgroundColor3 = Color3.fromRGB(0, 200, 255)
+Button.Size = UDim2.new(0.6,0,0,35)
+Button.Position = UDim2.new(0.2,0,0.75,0)
+Button.Parent = Frame
+Instance.new("UICorner", Button).CornerRadius = UDim.new(0, 8)
+
+-- Copy link khi bấm
+local link = "https://youtu.be/XIlnoWOgDgE?si=LctnG0VSEoxCxzng"
+Button.MouseButton1Click:Connect(function()
+    if setclipboard then
+        setclipboard(link)
+    elseif toclipboard then
+        toclipboard(link)
+    end
+    Button.Text = "✅ Copied!"
+    wait(2)
+    Button.Text = "📋 Copy YouTube Link"
+end)
